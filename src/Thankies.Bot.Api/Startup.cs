@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Scrutor;
 using Thankies.Bot.Api.Client;
 using Thankies.Bot.Api.Hosted;
-using Thankies.Bot.Api.Service;
 
 namespace Thankies.Bot.Api
 {
@@ -33,7 +32,7 @@ namespace Thankies.Bot.Api
             #region Services
 
             services.Scan(scan => scan
-                .FromAssemblyOf<TelegramService>()
+                .FromAssemblyOf<Startup>()
                 .AddClasses(classes =>
                     classes.Where(c => c.Name.EndsWith("Service")))
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
