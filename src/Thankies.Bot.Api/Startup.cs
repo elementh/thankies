@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Navigator;
-using Navigator.Extensions.Store;
 
 namespace Thankies.Bot.Api
 {
@@ -20,9 +18,6 @@ namespace Thankies.Bot.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddNavigator()
-                .AddBotToken(Configuration["BOT_TOKEN"])
-                .AddCustomStore<>()
         }
         
         public IConfiguration Configuration { get; }
@@ -36,8 +31,8 @@ namespace Thankies.Bot.Api
             }
 
             app.UseRouting();
-
-            app.UseEndpoints(endpoints => { endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); }); });
+            //
+            // app.UseEndpoints(endpoints => { endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); }); });
         }
     }
 }

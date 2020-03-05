@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Navigator" Version="0.8.5-beta" />
+      <ProjectReference Include="..\Thankies.Core.Entity\Thankies.Core.Entity.csproj" />
     </ItemGroup>
 
 </Project>
