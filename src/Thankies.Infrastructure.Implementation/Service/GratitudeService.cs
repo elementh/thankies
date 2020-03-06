@@ -43,9 +43,9 @@ namespace Thankies.Infrastructure.Implementation.Service
             try
             {
                 gratitude.Add(await Get(name, GratitudeFilter.None, language, cancellationToken));
+                gratitude.Add(await Get(name, GratitudeFilter.Mocking, language, cancellationToken));
                 gratitude.Add(await Get(name, GratitudeFilter.Shouting, language, cancellationToken));
                 gratitude.Add(await Get(name, GratitudeFilter.Leet, language, cancellationToken));
-                gratitude.Add(await Get(name, GratitudeFilter.Mocking, language, cancellationToken));
 
                 return gratitude;
             }
