@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Thankies.Bot.Api.VIewModel;
 
 namespace Thankies.Bot.Api.Controllers
 {
@@ -17,13 +18,7 @@ namespace Thankies.Bot.Api.Controllers
         [Produces("application/json")]
         public IActionResult GetConfigHealth()
         {
-            var data = new
-            {
-                Basic = Configuration["Images:Basic"],
-                Mocking = Configuration["Images:Mocking"],
-                Shouting = Configuration["Images:Shouting"],
-                Leet = Configuration["Images:Leet"]
-            };
+            var data = HealthConfigViewModel.ParseFromConfiguration(Configuration);
 
             return Ok(data);
         }
