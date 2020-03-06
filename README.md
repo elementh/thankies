@@ -6,6 +6,8 @@ Be grateful in telegram! Find it here: [@thankiesbot](https://t.me/thankiesbot).
 > 
 > **interj.** (context hypocoristic informal mostly internet English) thank you
 
+This bot is powered by [Thanks as a Service](https://api.taas.space).
+
 # License
 Thankies - Be Grateful in telegram!
 
