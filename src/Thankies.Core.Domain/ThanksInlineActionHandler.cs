@@ -23,7 +23,7 @@ namespace Thankies.Core.Domain
 
         public async Task<IEnumerable<InlineQueryResultBase>> Handle(ThanksInlineAction request, CancellationToken cancellationToken)
         {
-            var gratitude = await GratitudeService.GetForEveryFilter(request.Name);
+            var gratitude = await GratitudeService.GetForEveryFilter(request.Name, cancellationToken: cancellationToken);
 
             if (gratitude.Count < 4)
             {

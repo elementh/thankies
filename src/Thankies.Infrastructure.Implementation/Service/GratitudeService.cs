@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Thankies.Infrastructure.Contract.Client;
+using Thankies.Infrastructure.Contract.Model;
 using Thankies.Infrastructure.Contract.Service;
 
 namespace Thankies.Infrastructure.Implementation.Service
@@ -13,15 +13,7 @@ namespace Thankies.Infrastructure.Implementation.Service
     {
         protected readonly ILogger<GratitudeService> Logger;
         protected readonly ITaaSClient Client;
-        
-        public static class Filter
-        {
-            public static readonly string None = null;
-            public static readonly string Shouting = "shouting";
-            public static readonly string Mocking = "mocking";
-            public static readonly string Leet = "leet";
-        }
-        
+
         public GratitudeService(ILogger<GratitudeService> logger, ITaaSClient client)
         {
             Logger = logger;
@@ -51,10 +43,10 @@ namespace Thankies.Infrastructure.Implementation.Service
             {
                 var gratitude = new List<(string, string)>
                 {
-                    ("basic", await Get(name, Filter.None, language, cancellationToken)),
-                    (Filter.Shouting, await Get(name, Filter.Shouting, language, cancellationToken)),
-                    (Filter.Mocking, await Get(name, Filter.Mocking, language, cancellationToken)),
-                    (Filter.Leet, await Get(name, Filter.Leet, language, cancellationToken))
+                    ("basic", await Get(name, GratitudeFilter.None, language, cancellationToken)),
+                    (GratitudeFilter.Mocking, await Get(name, GratitudeFilter.Mocking, language, cancellationToken)),
+                    (GratitudeFilter.Shouting, await Get(name, GratitudeFilter.Shouting, language, cancellationToken)),
+                    (GratitudeFilter.Leet, await Get(name, GratitudeFilter.Leet, language, cancellationToken))
                 };
                 
                 return gratitude;
