@@ -7,12 +7,12 @@ using Thankies.Bot.Api.Client;
 
 namespace Thankies.Bot.Api.Hosted
 {
-    public class SetWebHookBackgroundService : BackgroundService
+    public class SetWebHookHosted : BackgroundService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly ILogger<SetWebHookBackgroundService> _logger;
+        private readonly ILogger<SetWebHookHosted> _logger;
 
-        public SetWebHookBackgroundService(IServiceScopeFactory serviceScopeFactory, ILogger<SetWebHookBackgroundService> logger)
+        public SetWebHookHosted(IServiceScopeFactory serviceScopeFactory, ILogger<SetWebHookHosted> logger)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;

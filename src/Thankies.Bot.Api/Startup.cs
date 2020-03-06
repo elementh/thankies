@@ -25,7 +25,7 @@ namespace Thankies.Bot.Api
             #region Hosted
 
             services.AddSingleton<IBotClient, BotClient>();
-            services.AddHostedService<SetWebHookBackgroundService>();
+            services.AddHostedService<SetWebHookHosted>();
 
             #endregion
 
