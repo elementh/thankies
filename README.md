@@ -3,6 +3,7 @@
 Be grateful in telegram! Find it here: [@thankiesbot](https://t.me/thankiesbot).
 
 > *thankies* [`wiktionary`](https://en.wiktionary.org/wiki/thankies)
+> 
 > **interj.** (context hypocoristic informal mostly internet English) thank you
 
 # License
