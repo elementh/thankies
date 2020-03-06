@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Thankies.Bot.Api.Client;
@@ -12,11 +13,13 @@ namespace Thankies.Bot.Api.Controllers
     [Route("api/[controller]")]
     public class UpdateController : ControllerBase
     {
+        protected readonly ILogger<UpdateController> Logger;
         protected readonly IBotClient BotClient;
         protected readonly IMediator Mediator;
 
-        public UpdateController(IBotClient botClient, IMediator mediator)
+        public UpdateController(ILogger<UpdateController> logger, IBotClient botClient, IMediator mediator)
         {
+            Logger = logger;
             BotClient = botClient;
             Mediator = mediator;
         }
@@ -28,7 +31,14 @@ namespace Thankies.Bot.Api.Controllers
             {
                 var results = await Mediator.Send(new ThanksInlineAction(update));
 
-                await BotClient.Client.AnswerInlineQueryAsync(update.InlineQuery.Id, results, 1, true);
+                try
+                {
+                    await BotClient.Client.AnswerInlineQueryAsync(update.InlineQuery.Id, results, 1, true);
+                }
+                catch (Exception e)
+                {
+                    Logger.LogError(e, "Error sending inline responses.");
+                }
             }
 
             return Ok();
