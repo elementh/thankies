@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Thankies.Infrastructure.Contract.Service;
 
@@ -15,23 +16,23 @@ namespace Thankies.Core.Domain
     {
         protected readonly ILogger<ThanksInlineActionHandler> Logger;
         protected readonly IGratitudeService GratitudeService;
-        
+
         protected static string Basic;
         protected static string Mocking;
         protected static string Shouting;
         protected static string Leet;
-        
+
         public ThanksInlineActionHandler(ILogger<ThanksInlineActionHandler> logger, IGratitudeService gratitudeService, IConfiguration configuration)
         {
             Logger = logger;
             GratitudeService = gratitudeService;
-            
-            Basic = configuration["Images.Basic"];
-            Mocking = configuration["Images.Mocking"];
-            Shouting = configuration["Images.Shouting"];
-            Leet = configuration["Images.Leet"];
+
+            Basic = configuration["Images:Basic"];
+            Mocking = configuration["Images:Mocking"];
+            Shouting = configuration["Images:Shouting"];
+            Leet = configuration["Images:Leet"];
         }
-        
+
         public async Task<IEnumerable<InlineQueryResultBase>> Handle(ThanksInlineAction request, CancellationToken cancellationToken)
         {
             var gratitude = await GratitudeService.GetForEveryFilter(request.Name, cancellationToken: cancellationToken);
@@ -43,26 +44,29 @@ namespace Thankies.Core.Domain
 
             return new List<InlineQueryResultBase>
             {
-                new InlineQueryResultPhoto(nameof(Basic), Basic, Basic)  {
-                    Title = "Basic gratitude",
+                new InlineQueryResultArticle(nameof(Basic), "Basic gratitude", new InputTextMessageContent(gratitude[0]))
+                {
                     Description = gratitude[0],
-                    InputMessageContent = new InputTextMessageContent(gratitude[0])
+                    ThumbUrl = Basic
                 },
-                new InlineQueryResultPhoto(nameof(Basic), Basic, Basic)  {
-                    Title = "Mocking gratitude",
-                    Description = gratitude[0],
-                    InputMessageContent = new InputTextMessageContent(gratitude[1])
+                new InlineQueryResultArticle(nameof(Mocking), "Mocking gratitude", new InputTextMessageContent(gratitude[1]))
+                {
+                    Description = gratitude[1],
+                    ThumbUrl = Mocking
+
                 },
-                new InlineQueryResultPhoto(nameof(Basic), Basic, Basic)  {
-                    Title = "Shouting gratitude",
-                    Description = gratitude[0],
-                    InputMessageContent = new InputTextMessageContent(gratitude[2])
+                new InlineQueryResultArticle(nameof(Shouting), "Shouting gratitude", new InputTextMessageContent(gratitude[2]))
+                {
+                    Description = gratitude[2],
+                    ThumbUrl = Shouting
+
                 },
-                new InlineQueryResultPhoto(nameof(Basic), Basic, Basic)  {
-                    Title = "Leet gratitude",
-                    Description = gratitude[0],
-                    InputMessageContent = new InputTextMessageContent(gratitude[3])
-                }
+                new InlineQueryResultArticle(nameof(Leet), "Leet gratitude", new InputTextMessageContent(gratitude[3]))
+                {
+                    Description = gratitude[3],
+                    ThumbUrl = Leet
+
+                },
             };
         }
     }
