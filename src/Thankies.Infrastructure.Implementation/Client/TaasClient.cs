@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,8 @@ namespace Thankies.Infrastructure.Implementation.Client
 
         public TaasClient(ILogger<TaasClient> logger, HttpClient client, IConfiguration configuration)
         {
+            if (string.IsNullOrWhiteSpace(configuration["TAAS_URL"])) throw new ArgumentNullException(nameof(configuration), "Taas URL must not be null");
+            
             client.BaseAddress = new Uri(configuration["TAAS_URL"]);
             Logger = logger;
             Client = client;
