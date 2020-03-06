@@ -26,7 +26,7 @@ namespace Thankies.Bot.Api.Controllers
         {
             if (update.Type == UpdateType.InlineQuery)
             {
-                var results = await Mediator.Send(new ThanksInlineAction());
+                var results = await Mediator.Send(new ThanksInlineAction(update));
 
                 await BotClient.Client.AnswerInlineQueryAsync(update.InlineQuery.Id, results, 1, true);
             }
