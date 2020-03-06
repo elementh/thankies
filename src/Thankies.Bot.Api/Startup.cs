@@ -1,11 +1,19 @@
+using System;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
 using Scrutor;
 using Thankies.Bot.Api.Client;
 using Thankies.Bot.Api.Hosted;
+using Thankies.Core.Domain;
+using Thankies.Infrastructure.Contract.Client;
+using Thankies.Infrastructure.Contract.Service;
+using Thankies.Infrastructure.Implementation.Client;
+using Thankies.Infrastructure.Implementation.Service;
 
 namespace Thankies.Bot.Api
 {
@@ -29,15 +37,20 @@ namespace Thankies.Bot.Api
 
             #endregion
 
-            #region Services
+            #region Pipeline
 
-            services.Scan(scan => scan
-                .FromAssemblyOf<Startup>()
-                .AddClasses(classes =>
-                    classes.Where(c => c.Name.EndsWith("Service")))
-                .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                .AsImplementedInterfaces()
-                .WithScopedLifetime());
+            services.AddMediatR(typeof(ThanksInlineAction).Assembly);
+
+            #endregion
+
+            #region Infrastructure
+
+            services.AddHttpClient<ITaaSClient, TaasClient>()
+                .AddTransientHttpErrorPolicy(builder =>
+                    builder.WaitAndRetryAsync(3, retryCount =>
+                        TimeSpan.FromSeconds(Math.Pow(2, retryCount))));
+
+            services.AddScoped<IGratitudeService, GratitudeService>();
 
             #endregion
         }
