@@ -1,14 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Thankies.Bot.Api.Client;
+using Thankies.Core.Domain;
 
 namespace Thankies.Bot.Api.Controllers
 {
     [Route("api/[controller]")]
     public class UpdateController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult Post([FromBody]Update update)
+        protected readonly IBotClient BotClient;
+        protected readonly IMediator Mediator;
+
+        public UpdateController(IBotClient botClient, IMediator mediator)
         {
+            BotClient = botClient;
+            Mediator = mediator;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]Update update)
+        {
+            if (update.Type == UpdateType.InlineQuery)
+            {
+                var results = await Mediator.Send(new ThanksInlineAction());
+
+                await BotClient.Client.AnswerInlineQueryAsync(update.InlineQuery.Id, results, 1, true);
+            }
+
             return Ok();
         }
     }
