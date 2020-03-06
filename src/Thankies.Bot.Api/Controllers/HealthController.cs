@@ -19,7 +19,7 @@ namespace Thankies.Bot.Api.Controllers
         {
             var data = new
             {
-                Basic = Configuration["Image:Basic"],
+                Basic = Configuration["Images:Basic"],
                 Mocking = Configuration["Images:Mocking"],
                 Shouting = Configuration["Images:Shouting"],
                 Leet = Configuration["Images:Leet"]
