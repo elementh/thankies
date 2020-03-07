@@ -8,6 +8,7 @@ namespace Thankies.Bot.Api.ViewModel
         public string Mocking { get; set; }
         public string Shouting { get; set; }
         public string Leet { get; set; }
+        public string ArtCute { get; set; }
 
         public static HealthConfigViewModel ParseFromConfiguration(IConfiguration configuration)
         {
@@ -16,7 +17,8 @@ namespace Thankies.Bot.Api.ViewModel
                 Basic = configuration["Images:Basic"],
                 Mocking = configuration["Images:Mocking"],
                 Shouting = configuration["Images:Shouting"],
-                Leet = configuration["Images:Leet"]
+                Leet = configuration["Images:Leet"],
+                ArtCute = configuration["Images:ArtCute"]
             };
         }
     }

@@ -32,7 +32,7 @@ namespace Thankies.Bot.Api.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> GetInfrastructureHealth(CancellationToken cancellationToken)
         {
-            var gratitude = await GratitudeService.Get("Thankies", null, "eng", cancellationToken);
+            var gratitude = await GratitudeService.Get("Thankies", null, "basic", "eng", cancellationToken);
 
             var gratitudeFilters = await GratitudeService.GetForEveryFilter("Thankies", "eng", cancellationToken);
             
