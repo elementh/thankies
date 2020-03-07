@@ -27,7 +27,7 @@ namespace Thankies.Bot.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Update update)
+        public async Task<IActionResult> Post([FromBody] Update update)
         {
             if (update.Type == UpdateType.InlineQuery)
             {
@@ -42,20 +42,18 @@ namespace Thankies.Bot.Api.Controllers
                     Logger.LogError(e, "Error sending inline responses.");
                 }
             }
-            else if (update.Type == UpdateType.Message)
-            {
+            else if (update.Type == UpdateType.Message && update.Message.Text.StartsWith("/thanks"))
                 try
                 {
-                    var result = await Mediator.Send(new ThanksCommandAction(update));
+                    var (replyToMessageId, message) = await Mediator.Send(new ThanksCommandAction(update));
 
-                    await BotClient.Client.SendTextMessageAsync(update.Message.Chat, result, ParseMode.Markdown, replyToMessageId: update.Message.ReplyToMessage?.MessageId ?? default);
+                    await BotClient.Client.SendTextMessageAsync(update.Message.Chat, message, ParseMode.Markdown,
+                        replyToMessageId: replyToMessageId ?? default);
                 }
                 catch (Exception e)
                 {
                     Logger.LogError(e, "Error sending message.");
-
                 }
-            }
 
             return Ok();
         }
