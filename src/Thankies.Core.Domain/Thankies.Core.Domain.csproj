@@ -17,4 +17,9 @@
       <ProjectReference Include="..\Thankies.Infrastructure.Contract\Thankies.Infrastructure.Contract.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Command" />
+      <Folder Include="Inline" />
+    </ItemGroup>
+
 </Project>

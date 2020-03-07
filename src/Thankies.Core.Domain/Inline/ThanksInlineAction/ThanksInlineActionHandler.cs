@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Thankies.Infrastructure.Contract.Service;
 
-namespace Thankies.Core.Domain
+namespace Thankies.Core.Domain.Inline.ThanksInlineAction
 {
     public class ThanksInlineActionHandler : IRequestHandler<ThanksInlineAction, IEnumerable<InlineQueryResultBase>>
     {
