@@ -6,6 +6,8 @@ Be grateful in telegram! Find it here: [@thankiesbot](https://t.me/thankiesbot).
 > 
 > **interj.** (context hypocoristic informal mostly internet English) thank you
 
+Made with ❤️ and gratitude by [Lucas Maximiliano Marino](https://lucasmarino.me).
+
 This bot is powered by [Thanks as a Service](https://api.taas.space).
 
 # License
