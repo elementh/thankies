@@ -23,11 +23,11 @@ namespace Thankies.Core.Domain.Command.ThanksCommandAction
 
             if (!request.IsReply || string.IsNullOrWhiteSpace(request.UserToReply))
             {
-                gratitude = await GratitudeService.Get(null, null, "eng", cancellationToken);
+                gratitude = await GratitudeService.Get(null, null, "basic", "eng", cancellationToken);
             }
             else
             {
-                gratitude = await GratitudeService.Get(request.UserToReply, null, "eng", cancellationToken);
+                gratitude = await GratitudeService.Get(request.UserToReply, null, "basic", "eng", cancellationToken);
             }
 
             return (request.MessageToReplyId, gratitude);
