@@ -27,9 +27,9 @@ namespace Thankies.Infrastructure.Implementation.Client
             Client = client;
         }
 
-        public async Task<GratitudeResponse> GetGratitude(string? name, string? filter, string language = "eng", CancellationToken cancellationToken = default)
+        public async Task<GratitudeResponse> GetGratitude(string? name = null, string? filter = null, string category = "basic", string language = "eng", CancellationToken cancellationToken = default)
         {
-            var requestUri = $"Thanks?name={name ?? ""}&category=basic&filters={filter ?? ""}&language={language}";
+            var requestUri = $"Thanks?name={name ?? ""}&category={category}&filters={filter ?? ""}&language={language}";
             
             var requestResponse = await Client.GetAsync($"{Client.BaseAddress}{requestUri}", cancellationToken);
 
@@ -42,7 +42,7 @@ namespace Thankies.Infrastructure.Implementation.Client
             return gratitude;
         }
 
-        public async Task<IEnumerable<GratitudeResponse>> GetGratitudeAllFilters(string? name, string language = "eng", CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<GratitudeResponse>> GetGratitudeAllFilters(string? name = null, string language = "eng", CancellationToken cancellationToken = default)
         {
             var requestUri = $"Bulk/allfilters?name={name ?? ""}&category=basic&different=true&language={language}";
             

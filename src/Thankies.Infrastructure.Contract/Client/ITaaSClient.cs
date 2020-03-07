@@ -7,8 +7,8 @@ namespace Thankies.Infrastructure.Contract.Client
 {
     public interface ITaaSClient
     {
-        Task<GratitudeResponse> GetGratitude(string? name, string? filter, string language = "eng", CancellationToken cancellationToken = default);
+        Task<GratitudeResponse> GetGratitude(string? name = null, string? filter = null, string category = "basic", string language = "eng", CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<GratitudeResponse>> GetGratitudeAllFilters(string? name, string language = "eng", CancellationToken cancellationToken = default);
+        Task<IEnumerable<GratitudeResponse>> GetGratitudeAllFilters(string? name = null, string language = "eng", CancellationToken cancellationToken = default);
     }
 }

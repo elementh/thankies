@@ -21,11 +21,11 @@ namespace Thankies.Infrastructure.Implementation.Service
             Client = client;
         }
 
-        public async Task<string?> Get(string? name, string? filter, string language = "eng", CancellationToken cancellationToken = default)
+        public async Task<string?> Get(string? name = null, string? filter = null, string category = "basic", string language = "eng", CancellationToken cancellationToken = default)
         {
             try
             {
-                var gratitude = await Client.GetGratitude(name, filter, language, cancellationToken);
+                var gratitude = await Client.GetGratitude(name, filter, category, language, cancellationToken);
 
                 return gratitude.Text;
             }
@@ -37,7 +37,7 @@ namespace Thankies.Infrastructure.Implementation.Service
             }
         }
 
-        public async Task<List<string>> GetForEveryFilter(string? name, string language = "eng", CancellationToken cancellationToken = default)
+        public async Task<List<string>> GetForEveryFilter(string? name = null, string language = "eng", CancellationToken cancellationToken = default)
         {
             var gratitude = new List<string>();
             
