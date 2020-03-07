@@ -9,6 +9,7 @@ using Polly;
 using Thankies.Bot.Api.Client;
 using Thankies.Bot.Api.Hosted;
 using Thankies.Core.Domain;
+using Thankies.Core.Domain.Inline.ThanksInlineAction;
 using Thankies.Infrastructure.Contract.Client;
 using Thankies.Infrastructure.Contract.Service;
 using Thankies.Infrastructure.Implementation.Client;
