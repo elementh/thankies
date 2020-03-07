@@ -19,6 +19,7 @@ namespace Thankies.Core.Domain.Inline.ThanksInlineAction
         protected static string Mocking;
         protected static string Shouting;
         protected static string Leet;
+        protected static string ArtCute;
 
         public ThanksInlineActionHandler(ILogger<ThanksInlineActionHandler> logger, IGratitudeService gratitudeService, IConfiguration configuration)
         {
@@ -29,11 +30,13 @@ namespace Thankies.Core.Domain.Inline.ThanksInlineAction
             Mocking = configuration["Images:Mocking"];
             Shouting = configuration["Images:Shouting"];
             Leet = configuration["Images:Leet"];
+            ArtCute = configuration["Images:ArtCute"];
         }
 
         public async Task<IEnumerable<InlineQueryResultBase>> Handle(ThanksInlineAction request, CancellationToken cancellationToken)
         {
             var gratitude = await GratitudeService.GetForEveryFilter(request.Name, cancellationToken: cancellationToken);
+            var gratitudeArt = await GratitudeService.Get(request.Name, null, "art", cancellationToken: cancellationToken);
 
             if (gratitude.Count < 4)
             {
@@ -63,8 +66,12 @@ namespace Thankies.Core.Domain.Inline.ThanksInlineAction
                 {
                     Description = gratitude[3],
                     ThumbUrl = Leet
-
                 },
+                new InlineQueryResultArticle(nameof(ArtCute), "Art/Cute gratitude", new InputTextMessageContent(gratitudeArt))
+                {
+                    Description = gratitudeArt,
+                    ThumbUrl = ArtCute
+                }
             };
         }
     }
