@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -42,10 +43,9 @@ namespace Thankies.Infrastructure.Implementation.Service
             
             try
             {
-                gratitude.Add(await Get(name, GratitudeFilter.None, language, cancellationToken));
-                gratitude.Add(await Get(name, GratitudeFilter.Mocking, language, cancellationToken));
-                gratitude.Add(await Get(name, GratitudeFilter.Shouting, language, cancellationToken));
-                gratitude.Add(await Get(name, GratitudeFilter.Leet, language, cancellationToken));
+                var gratitudeResponse = await Client.GetGratitudeAllFilters(name, language, cancellationToken);
+
+                gratitude.AddRange(gratitudeResponse.Select(x => x.Text).AsEnumerable());
 
                 return gratitude;
             }

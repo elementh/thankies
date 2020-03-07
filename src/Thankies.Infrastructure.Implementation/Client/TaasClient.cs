@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -37,6 +38,21 @@ namespace Thankies.Infrastructure.Implementation.Client
             await using var responseStream = await requestResponse.Content.ReadAsStreamAsync();
             
             var gratitude = await JsonSerializer.DeserializeAsync<GratitudeResponse>(responseStream, cancellationToken: cancellationToken);
+
+            return gratitude;
+        }
+
+        public async Task<IEnumerable<GratitudeResponse>> GetGratitudeAllFilters(string? name, string language = "eng", CancellationToken cancellationToken = default)
+        {
+            var requestUri = $"Bulk/allfilters?name={name ?? ""}&category=basic&different=true&language={language}";
+            
+            var requestResponse = await Client.GetAsync($"{Client.BaseAddress}{requestUri}", cancellationToken);
+            
+            requestResponse.EnsureSuccessStatusCode();
+            
+            await using var responseStream = await requestResponse.Content.ReadAsStreamAsync();
+            
+            var gratitude = await JsonSerializer.DeserializeAsync<IEnumerable<GratitudeResponse>>(responseStream, cancellationToken: cancellationToken);
 
             return gratitude;
         }
