@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Thankies.Bot.Api.VIewModel;
+using Thankies.Bot.Api.ViewModel;
 
 namespace Thankies.Bot.Api.Controllers
 {

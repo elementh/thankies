@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Thankies.Bot.Api
+namespace Thankies.Bot.Api.ViewModel
 {
     public class HealthConfigViewModel
     {
