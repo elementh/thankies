@@ -7,10 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MediatR" Version="8.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.2" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.2" />
-      <PackageReference Include="Telegram.Bot" Version="15.0.0" />
+      <PackageReference Include="Navigator" Version="0.9.0-beta" />
     </ItemGroup>
 
     <ItemGroup>

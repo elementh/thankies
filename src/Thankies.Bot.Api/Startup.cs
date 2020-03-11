@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Navigator;
 using Polly;
-using Thankies.Bot.Api.Client;
-using Thankies.Bot.Api.Hosted;
-using Thankies.Core.Domain;
 using Thankies.Core.Domain.Inline.ThanksInlineAction;
 using Thankies.Infrastructure.Contract.Client;
 using Thankies.Infrastructure.Contract.Service;
@@ -23,6 +21,8 @@ namespace Thankies.Bot.Api
         {
             Configuration = configuration;
         }
+        
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -30,10 +30,13 @@ namespace Thankies.Bot.Api
         {
             services.AddControllers().AddNewtonsoftJson();
 
-            #region Hosted
+            #region Navigator
 
-            services.AddSingleton<IBotClient, BotClient>();
-            services.AddHostedService<SetWebHookHosted>();
+            services.AddNavigator(options =>
+            {
+                options.BotToken = Configuration["TELEGRAM_TOKEN"];
+                options.BaseWebHookUrl = Configuration["BOT_URL"];
+            }, typeof(ThanksInlineAction).Assembly);
 
             #endregion
 
@@ -55,8 +58,6 @@ namespace Thankies.Bot.Api
             #endregion
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -67,7 +68,11 @@ namespace Thankies.Bot.Api
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapNavigator();
+            });
         }
     }
 }

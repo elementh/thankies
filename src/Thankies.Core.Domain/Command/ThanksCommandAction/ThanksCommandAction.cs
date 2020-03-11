@@ -1,31 +1,26 @@
 using MediatR;
+using Navigator.Abstraction;
+using Navigator.Actions;
 using Telegram.Bot.Types;
 
 namespace Thankies.Core.Domain.Command.ThanksCommandAction
 {
-    public class ThanksCommandAction : IRequest<(int?, string)>
+    public class ThanksCommandAction : Action
     {
-        public readonly bool IsReply;
-        public readonly string? UserToReply;
-        public readonly int? MessageToReplyId;
+        public override string Type => ActionType.Command;
+        public bool IsReply { get; protected set; }
 
-        public ThanksCommandAction(Update update)
+        public override IAction Init(INavigatorContext ctx)
         {
-            IsReply = update.Message.ReplyToMessage?.MessageId != null;
+            IsReply = ctx.Update.Message.ReplyToMessage?.MessageId != null;
 
-            if (!IsReply)
-            {
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(update.Message.ReplyToMessage?.From?.Username))
-            {
-                UserToReply = update.Message.ReplyToMessage?.From?.Username;
-            }
-            else
-            {
-                MessageToReplyId = update.Message.ReplyToMessage.MessageId;
-            }
+            return this;
         }
+
+        public override bool CanHandle(INavigatorContext ctx)
+        {
+            return ctx.Update.Message.Text.StartsWith("/thanks");
+        }
+
     }
 }

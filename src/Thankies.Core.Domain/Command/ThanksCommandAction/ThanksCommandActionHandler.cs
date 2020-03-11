@@ -1,36 +1,40 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Navigator.Abstraction;
+using Navigator.Actions;
 using Thankies.Infrastructure.Contract.Service;
 
 namespace Thankies.Core.Domain.Command.ThanksCommandAction
 {
-    public class ThanksCommandActionHandler : IRequestHandler<ThanksCommandAction, (int?, string)>
+    public class ThanksCommandActionHandler : ActionHandler<ThanksCommandAction>
     {
-        protected readonly ILogger<ThanksCommandActionHandler> Logger;
         protected readonly IGratitudeService GratitudeService;
-
-        public ThanksCommandActionHandler(ILogger<ThanksCommandActionHandler> logger, IGratitudeService gratitudeService)
+        
+        public ThanksCommandActionHandler(INavigatorContext ctx, IGratitudeService gratitudeService) : base(ctx)
         {
-            Logger = logger;
             GratitudeService = gratitudeService;
         }
-
-        public async Task<(int?, string)> Handle(ThanksCommandAction request, CancellationToken cancellationToken)
+        
+        public override async Task<Unit> Handle(ThanksCommandAction request, CancellationToken cancellationToken)
         {
-            string gratitude;
-
-            if (!request.IsReply || string.IsNullOrWhiteSpace(request.UserToReply))
+            var gratitude = await GratitudeService.Get(null, null, "basic", "eng", cancellationToken);
+            if (gratitude == null) return Unit.Value;
+            
+            if (request.IsReply)
             {
-                gratitude = await GratitudeService.Get(null, null, "basic", "eng", cancellationToken);
+                await Ctx.Client.SendTextMessageAsync(Ctx.Update.Message.Chat.Id, gratitude,
+                    replyToMessageId: Ctx.Update.Message.ReplyToMessage.MessageId, cancellationToken: cancellationToken);
             }
             else
-            {
-                gratitude = await GratitudeService.Get(request.UserToReply, null, "basic", "eng", cancellationToken);
+            {     
+                await Ctx.Client.SendTextMessageAsync(Ctx.Update.Message.Chat.Id, gratitude, cancellationToken: cancellationToken);
             }
 
-            return (request.MessageToReplyId, gratitude);
+            return Unit.Value;
         }
+
     }
 }
