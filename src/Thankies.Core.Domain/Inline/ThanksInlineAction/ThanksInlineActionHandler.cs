@@ -5,14 +5,15 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Navigator.Abstraction;
+using Navigator.Actions;
 using Telegram.Bot.Types.InlineQueryResults;
 using Thankies.Infrastructure.Contract.Service;
 
 namespace Thankies.Core.Domain.Inline.ThanksInlineAction
 {
-    public class ThanksInlineActionHandler : IRequestHandler<ThanksInlineAction, IEnumerable<InlineQueryResultBase>>
+    public class ThanksInlineActionHandler : ActionHandler<ThanksInlineAction>
     {
-        protected readonly ILogger<ThanksInlineActionHandler> Logger;
         protected readonly IGratitudeService GratitudeService;
 
         protected static string Basic;
@@ -21,29 +22,27 @@ namespace Thankies.Core.Domain.Inline.ThanksInlineAction
         protected static string Leet;
         protected static string ArtCute;
 
-        public ThanksInlineActionHandler(ILogger<ThanksInlineActionHandler> logger, IGratitudeService gratitudeService, IConfiguration configuration)
+        public ThanksInlineActionHandler(INavigatorContext ctx, IConfiguration configuration, IGratitudeService gratitudeService) : base(ctx)
         {
-            Logger = logger;
             GratitudeService = gratitudeService;
-
             Basic = configuration["Images:Basic"];
             Mocking = configuration["Images:Mocking"];
             Shouting = configuration["Images:Shouting"];
             Leet = configuration["Images:Leet"];
             ArtCute = configuration["Images:ArtCute"];
         }
-
-        public async Task<IEnumerable<InlineQueryResultBase>> Handle(ThanksInlineAction request, CancellationToken cancellationToken)
+        
+        public override async Task<Unit> Handle(ThanksInlineAction request, CancellationToken cancellationToken)
         {
             var gratitude = await GratitudeService.GetForEveryFilter(request.Name, cancellationToken: cancellationToken);
             var gratitudeArt = await GratitudeService.Get(request.Name, null, "art", cancellationToken: cancellationToken);
 
-            if (gratitude.Count < 4)
+            if (gratitude.Count < 4 || string.IsNullOrWhiteSpace(gratitudeArt))
             {
-                throw new Exception();
+                return Unit.Value;
             }
 
-            return new List<InlineQueryResultBase>
+            var responses = new List<InlineQueryResultBase>
             {
                 new InlineQueryResultArticle(nameof(Basic), "Basic gratitude", new InputTextMessageContent(gratitude[0]))
                 {
@@ -73,6 +72,10 @@ namespace Thankies.Core.Domain.Inline.ThanksInlineAction
                     ThumbUrl = ArtCute
                 }
             };
+            
+            await Ctx.Client.AnswerInlineQueryAsync(Ctx.Update.InlineQuery.Id, responses, 1, true, cancellationToken: cancellationToken);
+            
+            return Unit.Value;
         }
     }
 }

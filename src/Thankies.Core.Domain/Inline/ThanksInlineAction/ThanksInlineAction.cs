@@ -1,17 +1,28 @@
 ﻿using System.Collections.Generic;
 using MediatR;
+using Navigator.Abstraction;
+using Navigator.Actions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 
 namespace Thankies.Core.Domain.Inline.ThanksInlineAction
 {
-    public class ThanksInlineAction : IRequest<IEnumerable<InlineQueryResultBase>>
+    public class ThanksInlineAction : Action
     {
-        public ThanksInlineAction(Update update)
-        {
-            Name = string.IsNullOrWhiteSpace(update.InlineQuery.Query) ? null : update.InlineQuery.Query;
-        }
+        public override string Type => ActionType.InlineQuery;
+        public string? Name { get; protected set; }
         
-        public string? Name { get; }
+        public override IAction Init(INavigatorContext ctx)
+        {
+            Name = string.IsNullOrWhiteSpace(ctx.Update.InlineQuery.Query) ? null : ctx.Update.InlineQuery.Query;
+
+            return this;
+        }
+
+        public override bool CanHandle(INavigatorContext ctx)
+        {
+            return true;
+        }
+
     }
 }
