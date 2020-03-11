@@ -6,7 +6,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Thankies.Core.Domain\Thankies.Core.Domain.csproj" />
-        <ProjectReference Include="..\Thankies.Core.Entity\Thankies.Core.Entity.csproj" />
         <ProjectReference Include="..\Thankies.Infrastructure.Implementation\Thankies.Infrastructure.Implementation.csproj" />
     </ItemGroup>
 
