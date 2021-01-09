@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using MediatR;
-using Navigator.Abstraction;
+﻿using Navigator.Abstraction;
 using Navigator.Actions;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.InlineQueryResults;
+using Navigator.Actions.Abstraction;
 
 namespace Thankies.Core.Domain.Inline.ThanksInlineAction
 {

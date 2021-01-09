@@ -1,6 +1,7 @@
 using MediatR;
 using Navigator.Abstraction;
 using Navigator.Actions;
+using Navigator.Actions.Abstraction;
 using Telegram.Bot.Types;
 
 namespace Thankies.Core.Domain.Command.ThanksCommandAction
