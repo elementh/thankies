@@ -17,7 +17,7 @@ COPY . .
 WORKDIR /src/Thankies
 RUN dotnet publish -c Release -o /app -r linux-musl-x64 --self-contained false --no-restore ../Thankies.sln 
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 
