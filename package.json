@@ -1,0 +1,17 @@
+{
+    "name": "thankies_docs",
+    "version": "1.0.0",
+    "description": " Be grateful in telegram!",
+    "scripts": {
+      "docs:dev": "vuepress dev docs",
+      "docs:build": "vuepress build docs"
+    },
+    "repository": "git@github.com:elementh/thankies.git",
+    "author": "Lucas Maximiliano Marino",
+    "license": "GPL-3.0",
+    "private": true,
+    "devDependencies": {
+      "vuepress": "^2.0.0-beta.29",
+      "@vuepress/plugin-back-to-top": "^2.0.0-beta.29"
+    }
+  }
