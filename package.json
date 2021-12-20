@@ -1,7 +1,7 @@
 {
     "name": "thankies_docs",
     "version": "1.0.0",
-    "description": " Be grateful in telegram!",
+    "description": "Be grateful in telegram!",
     "scripts": {
       "docs:dev": "vuepress dev docs",
       "docs:build": "vuepress build docs"
