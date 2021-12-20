@@ -1,0 +1,33 @@
+:root {
+    scroll-behavior: smooth;
+
+    --c-brand: #7a57d1;
+    --c-brand-light: #6a9ecb;
+
+    --c-bg: #5be7c4;
+}
+
+.navbar {
+    border-bottom: 1px solid var(--c-brand-light);
+}
+
+.home .footer {
+    border-top: 1px solid var(--c-brand-light);
+}
+
+#cover {
+    // width: 130px;
+    // height: 195px;
+    position: relative;
+    display: inline-block;
+}
+#cover #picture-top {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+#cover:hover #picture-top {
+    display: inline;
+}
