@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Thankies.Infrastructure.Contract.Model
@@ -6,7 +7,7 @@ namespace Thankies.Infrastructure.Contract.Model
     public class GratitudeResponse
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [JsonPropertyName("text")]
         public string Text { get; set; }
 
