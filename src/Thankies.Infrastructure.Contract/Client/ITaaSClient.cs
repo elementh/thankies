@@ -9,6 +9,7 @@ namespace Thankies.Infrastructure.Contract.Client
     {
         Task<GratitudeResponse> GetGratitude(string? name = null, string? filter = null, string category = "basic", string language = "eng", CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<GratitudeResponse>> GetGratitudeAllFilters(string? name = null, string language = "eng", CancellationToken cancellationToken = default);
+        Task<GratitudeResponse?> GetGratitudeAllFilters(string? name = null, string language = "eng",
+            CancellationToken cancellationToken = default);
     }
 }

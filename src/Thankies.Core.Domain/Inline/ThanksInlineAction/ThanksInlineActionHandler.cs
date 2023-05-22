@@ -51,19 +51,19 @@ namespace Thankies.Core.Domain.Inline.ThanksInlineAction
                 },
                 new InlineQueryResultArticle(nameof(Mocking), "Mocking gratitude", new InputTextMessageContent(gratitude[1]))
                 {
-                    Description = gratitude[1],
+                    Description = gratitude[2],
                     ThumbUrl = Mocking
 
                 },
                 new InlineQueryResultArticle(nameof(Shouting), "Shouting gratitude", new InputTextMessageContent(gratitude[2]))
                 {
-                    Description = gratitude[2],
+                    Description = gratitude[3],
                     ThumbUrl = Shouting
 
                 },
                 new InlineQueryResultArticle(nameof(Leet), "Leet gratitude", new InputTextMessageContent(gratitude[3]))
                 {
-                    Description = gratitude[3],
+                    Description = gratitude[1],
                     ThumbUrl = Leet
                 },
                 new InlineQueryResultArticle(nameof(ArtCute), "Art/Cute gratitude", new InputTextMessageContent(gratitudeArt))

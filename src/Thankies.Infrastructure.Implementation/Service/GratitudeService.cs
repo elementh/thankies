@@ -45,7 +45,9 @@ namespace Thankies.Infrastructure.Implementation.Service
             {
                 var gratitudeResponse = await Client.GetGratitudeAllFilters(name, language, cancellationToken);
 
-                gratitude.AddRange(gratitudeResponse.Select(x => x.Text).AsEnumerable());
+                gratitude.Add(gratitudeResponse.Text);
+                
+                gratitude.AddRange(gratitudeResponse.Flavours.Select(x => x.Text).Skip(1));
 
                 return gratitude;
             }

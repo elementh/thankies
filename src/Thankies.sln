@@ -17,6 +17,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{9C21B991-D1B2-4106-9EEE-5BAFD718C5E3}"
 ProjectSection(SolutionItems) = preProject
 	Dockerfile = Dockerfile
+	.dockerignore = .dockerignore
+	..\.github\workflows\docker-publish.yml = ..\.github\workflows\docker-publish.yml
 EndProjectSection
 EndProject
 Global
